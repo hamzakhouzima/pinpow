@@ -1,45 +1,35 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Plants;
 use App\Models\Category;
-use App\Http\Requests\StorePlantsRequest;
-use App\Http\Requests\UpdatePlantsRequest;
+
 use Illuminate\Http\Request;
 
-class PlantsController extends Controller
+
+class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    //
+    public function getCategory($id){
 
+        $category = Category::with('plants.category')->find($id);
+        $plants = $category->plants;
+        return response()->json($plants);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /////////////////////////////
     public function create(Request $request)
     {
-        $plant = new Plants;
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'category' => 'required|string',
-        //     'quantity' => 'required|string',
-        // ]);
-        $plant->name = $request->name;
-        $plant->category_id = $request->category_id;
-        $plant->quantity = $request->quantity;
-        $plant->path = $request->path;
-        $plant->save();
+        $validatedData = $request->validate([
+            
+            'category' => 'required|string',
+        ]);
+        $category = $request->category;
 
+
+        $plant = Category::create([
+            
+            'category' => $category,
+           
+        ]);
         return response()->json('added successfully');
 
     }
@@ -61,14 +51,14 @@ class PlantsController extends Controller
      * @param  \App\Models\Plants  $plants
      * @return \Illuminate\Http\Response
      */
-    public function show(Plants $plants , $id)
-    {
-        //
-        // $data = Plants::Find($id);
-        $category = Category::with('plants.category')->find($id);
-        $plants = $category->plants;
-        return response()->json($plants);
-    }
+    // public function show(Plants $plants , $id)
+    // {
+    //     //
+    //     $data = Plants::Find($id);
+
+    //     return response()->json($data);
+
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -76,7 +66,7 @@ class PlantsController extends Controller
      * @param  \App\Models\Plants  $plants
      * @return \Illuminate\Http\Response
      */
-    public function edit(Plants $plants ,Request $request,$id)
+    public function edit(Category $category ,Request $request,$id)
     {
         // //
         // $validatedData = $request->validate([
@@ -84,18 +74,12 @@ class PlantsController extends Controller
         //     'category' => 'required|string',
         //     'quantity' => 'required|string',
         // ]);
-        $name =$request->name;
         $category = $request->category;
-        $quantity = $request->quantity;
-        $path = $request->path;
 
 
-        $plant = Plants::find($id);
+        $plant = Category::find($id);
 
-        $plant->name=$name;
         $plant->category=$category;
-        $plant->quantity=$quantity;
-        $plant->path=$path;
 
         $plant->save();
      
@@ -124,11 +108,11 @@ class PlantsController extends Controller
      * @param  \App\Models\Plants  $plants
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Plants $plants , $id)
+    public function destroy(Category $category , $id)
     {
         //
          
-    $data = Plants::find($id);
+    $data = Category::find($id);
     $data->delete();
     return response()->json('deleted successfully');
 
