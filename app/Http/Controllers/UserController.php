@@ -66,7 +66,7 @@ class UserController extends Controller
 
         $user->name = $name;
         $user->email = $email;
-        $user->password = $password;
+        $user->password = bcrypt($password);
 
         $user->save();
 
@@ -78,9 +78,12 @@ class UserController extends Controller
 
         return $user;
 
-
-
-
     }
+
+    public function logout(){
+        $user = Auth::user();
+
+        $user->tokens()->delete();
+        return response()->json('logout successfully');    }
     
 }

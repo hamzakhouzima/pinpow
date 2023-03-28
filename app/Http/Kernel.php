@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.ADM' => \App\Http\Middleware\CheckRole::class,
         'auth.SELL' => \App\Http\Middleware\Sell::class,
+        'auth.USR' => \App\Http\Middleware\USER::class,
 
     ];
 }

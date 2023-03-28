@@ -43,6 +43,9 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
                 Route::post('Category/create/',[CategoryController::class,'create']);
                 Route::post('Category/edit/{id}',[CategoryController::class,'edit']);
                 Route::delete('Category/delete/{id}',[CategoryController::class,'destroy']);
+                Route::post('Logout',[UserController::class,'logout']);
+                Route::post('userUpdate',[UserController::class , 'updateData']);
+
             });
 
     Route::middleware(['auth','auth.SELL'])->group(function(){
@@ -50,10 +53,16 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
                 Route::get('Plants/{id}',[PlantsController::class , 'show']);
                 Route::post('Plants/update/{id}',[PlantsController::class , 'edit']);
                 Route::delete('Plants/destroy/{id}',[PlantsController::class , 'destroy']);
+                Route::post('Logout',[UserController::class,'logout']);
+                Route::post('userUpdate',[UserController::class , 'updateData']);
 
     });
-    Route::post('userUpdate',[UserController::class , 'updateData']);
 
+ Route::middleware(['auth','auth.USR'])->group(function(){
+    Route::post('userUpdate',[UserController::class , 'updateData']);
+    Route::get('usr/Plants/{id}',[PlantsController::class , 'show']);
+
+});
 
 });
 
