@@ -85,7 +85,7 @@ class PlantsController extends Controller
         //     'quantity' => 'required|string',
         // ]);
         $name =$request->name;
-        $category = $request->category;
+        $category = $request->category_id;
         $quantity = $request->quantity;
         $path = $request->path;
 
@@ -93,7 +93,7 @@ class PlantsController extends Controller
         $plant = Plants::find($id);
 
         $plant->name=$name;
-        $plant->category=$category;
+        $plant->category_id=$category;
         $plant->quantity=$quantity;
         $plant->path=$path;
 
@@ -116,6 +116,20 @@ class PlantsController extends Controller
     public function update(UpdatePlantsRequest $request, Plants $plants)
     {
         //
+    }
+    public function filterByCategory($category)
+    {
+
+            // Filter by category name
+        $plant = Plants::join('category', 'Plants.category_id', '=', 'category.id')
+                    ->select('Plants.*', 'category.category as category')
+                    ->where('category.category', $category)
+                    ->get();
+
+
+
+
+        return response()->json($plant, 200);
     }
 
     /**

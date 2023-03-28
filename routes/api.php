@@ -35,9 +35,11 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
    
    
     Route::middleware(['auth','auth.ADM'])->group(function(){
+
                 Route::post('ADM/Plants',[PlantsController::class , 'create']);
                 Route::get('ADM/Plants/{id}',[PlantsController::class , 'show']);
                 Route::post('ADM/Plants/update/{id}',[PlantsController::class , 'edit']);
+                Route::post('sort/{category}',[PlantsController::class , 'filterByCategory']);
 
                 Route::get('Category/{id}',[CategoryController::class,'getCategory']);
                 Route::post('Category/create/',[CategoryController::class,'create']);
@@ -45,6 +47,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
                 Route::delete('Category/delete/{id}',[CategoryController::class,'destroy']);
                 Route::post('Logout',[UserController::class,'logout']);
                 Route::post('userUpdate',[UserController::class , 'updateData']);
+                
 
             });
 
@@ -55,12 +58,15 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
                 Route::delete('Plants/destroy/{id}',[PlantsController::class , 'destroy']);
                 Route::post('Logout',[UserController::class,'logout']);
                 Route::post('userUpdate',[UserController::class , 'updateData']);
+                Route::post('sort/{category}',[PlantsController::class , 'filterByCategory']);
+
 
     });
 
  Route::middleware(['auth','auth.USR'])->group(function(){
     Route::post('userUpdate',[UserController::class , 'updateData']);
     Route::get('usr/Plants/{id}',[PlantsController::class , 'show']);
+    Route::post('sort/{category}',[PlantsController::class , 'filterByCategory']);
 
 });
 

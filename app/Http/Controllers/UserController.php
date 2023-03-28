@@ -80,10 +80,15 @@ class UserController extends Controller
 
     }
 
+
+
     public function logout(){
         $user = Auth::user();
 
         $user->tokens()->delete();
-        return response()->json('logout successfully');    }
+        return response()->json('logout successfully');
+
+        }
     
+
 }
